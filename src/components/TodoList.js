@@ -1,5 +1,7 @@
 import React from "react";
 import Todo from "./Todo";
+import { connect } from "react-redux";
+import { getTodo, getTodosByVisibilityFilter } from "../redux/selectors";
 
 const TodoList = ({ todos }) => (
   <ul className="todo-list">
@@ -11,4 +13,11 @@ const TodoList = ({ todos }) => (
   </ul>
 );
 
-export default TodoList;
+const mapStateToProps = (state) => {
+  const { visibilityFilter } = state;
+  const todos = getTodosByVisibilityFilter(state, visibilityFilter);
+  return { todos };
+};
+
+export default connect(mapStateToProps)(TodoList);
+// export default connect((state) => ({ todos: getTodos(state) }))(TodoList);
